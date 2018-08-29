@@ -72,6 +72,18 @@ class Rules extends \yii\db\ActiveRecord
     {
         return $this
             ->hasMany(Cultures::className(), ['id' => 'culture_id'])
-            ->via('ruleCultures');
+            ->via('ruleCultures')
+        ;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRetailers()
+    {
+        return $this
+            ->hasMany(Retailers::className(), ['id' => 'retailer_id'])
+            ->via('ruleRetailers')
+        ;
     }
 }

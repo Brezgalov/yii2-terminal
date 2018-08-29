@@ -5,13 +5,14 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "rules".
+ * This is the model class for table "rule_retailers".
  *
  * @property int $id
+ * @property int $rule_id
+ * @property int $retailer_id
  *
- * @property RuleCrops[] $ruleCrops
- * @property RuleInstances[] $ruleInstances
- * @property RuleRetailers[] $ruleRetailers
+ * @property Retailers $retailer
+ * @property Rules $rule
  */
 class RuleRetailers extends \yii\db\ActiveRecord
 {
@@ -20,7 +21,7 @@ class RuleRetailers extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'rules';
+        return 'rule_retailers';
     }
 
     /**
@@ -28,7 +29,12 @@ class RuleRetailers extends \yii\db\ActiveRecord
      */
     public function rules()
     {
-        return [];
+        return [
+            [['rule_id', 'retailer_id'], 'required'],
+            [['rule_id', 'retailer_id'], 'integer'],
+            [['retailer_id'], 'exist', 'skipOnError' => true, 'targetClass' => Retailers::className(), 'targetAttribute' => ['retailer_id' => 'id']],
+            [['rule_id'], 'exist', 'skipOnError' => true, 'targetClass' => Rules::className(), 'targetAttribute' => ['rule_id' => 'id']],
+        ];
     }
 
     /**
@@ -38,30 +44,24 @@ class RuleRetailers extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
+            'rule_id' => 'Rule ID',
+            'retailer_id' => 'Retailer ID',
         ];
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRuleCrops()
+    public function getRetailer()
     {
-        return $this->hasMany(RuleCrops::className(), ['rule_id' => 'id']);
+        return $this->hasOne(Retailers::className(), ['id' => 'retailer_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRuleInstances()
+    public function getRule()
     {
-        return $this->hasMany(RuleInstances::className(), ['rule_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRuleRetailers()
-    {
-        return $this->hasMany(RuleRetailers::className(), ['rule_id' => 'id']);
+        return $this->hasOne(Rules::className(), ['id' => 'rule_id']);
     }
 }
