@@ -35,6 +35,7 @@ class DaysController extends ActiveController
  	 *              @SWG\Property(
 	 *					property="days",
 	 *                  type="array",
+     *                  items=@SWG\Items(ref="#/definitions/DayPreview")
  	 *              ),
  	 *          )
  	 *     ),
@@ -62,7 +63,7 @@ class DaysController extends ActiveController
 			;
 		}
 		$days = $dbDays
-			->with(['workShifts.transitRuleInstances.transitRule.crops'])
+			->with(['workShifts.ruleInstances.rule.cultures'])
 			->orderBy('date')
 			->asArray()
 			->all()
@@ -70,32 +71,32 @@ class DaysController extends ActiveController
 
 		foreach ($days as $i => $day) {
 			$total = [
-				'quota' 		=> 0,
-				'registered'	=> 0,
+				'quota' => 0,
+				'count'	=> 0,
 			];
 			$rules = [];
 			foreach ($day['workShifts'] as $j => $workShift) {
-				foreach ($workShift['transitRuleInstances'] as $transitRuleInst) {
+				foreach ($workShift['ruleInstances'] as $ruleInst) {
 					//Считаем общую квоту и регистрации за день
-					$total['quota'] 		+= $transitRuleInst['quota'];
-					$total['registered'] 	+= $transitRuleInst['registered'];
+					$total['quota'] += $ruleInst['quota'];
+					$total['count'] += $ruleInst['count'];
 					//Считаем общую квоту и регистрации по каждому правилу
-					$ruleId = $transitRuleInst['transit_rule_id'];
+					$ruleId = $ruleInst['rule_id'];
 					if (!array_key_exists($ruleId, $rules)) {
 						$rules[$ruleId] = [
-							'quota' 		=> $transitRuleInst['quota'],
-							'registered'	=> $transitRuleInst['registered'],
-							'crops'			=> array_column($transitRuleInst['transitRule']['crops'], 'name'),
+							'quota' => $ruleInst['quota'],
+							'count'	=> $ruleInst['count'],
+							'crops' => array_column($ruleInst['rule']['cultures'], 'name'),
 						];
 					} else {
-						$rules[$ruleId]['quota'] += $transitRuleInst['quota'];
-						$rules[$ruleId]['registered'] += $transitRuleInst['registered'];
+						$rules[$ruleId]['quota'] += $ruleInst['quota'];
+						$rules[$ruleId]['count'] += $ruleInst['count'];
 					}
-				}				
+				}
 			}
 			$days[$i]['total'] = $total;
 			$days[$i]['rules'] = array_values($rules);
-			unset($days[$i]['workShifts']); 
+			unset($days[$i]['workShifts']);
 		}
 
 		return ['days' => $days];

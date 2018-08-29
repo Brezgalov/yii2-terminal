@@ -5,21 +5,21 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "crops".
+ * This is the model class for table "cultures".
  *
  * @property int $id
  * @property string $name
  *
- * @property TransitRuleCrops[] $transitRuleCrops
+ * @property RuleCultures[] $ruleCultures
  */
-class Crops extends \yii\db\ActiveRecord
+class Cultures extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'crops';
+        return 'cultures';
     }
 
     /**
@@ -47,8 +47,8 @@ class Crops extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransitRuleCrops()
+    public function getRuleCultures()
     {
-        return $this->hasMany(TransitRuleCrops::className(), ['crop_id' => 'id']);
+        return $this->hasMany(RuleCultures::className(), ['culture_id' => 'id']);
     }
 }

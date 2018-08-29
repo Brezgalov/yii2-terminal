@@ -3,17 +3,18 @@
 use yii\db\Migration;
 
 /**
- * Class m180828_133123_create_table_transit_rules
+ * Class m180828_131809_create_table_cultures
  */
-class m180828_133123_create_table_transit_rules extends Migration
+class m180828_131809_create_table_cultures extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('transit_rules', [
-            'id'        => $this->primaryKey(),
+        $this->createTable('cultures', [
+            'id'    => $this->primaryKey(),
+            'name'  => $this->string()->notNull(),
         ]);
     }
 
@@ -22,7 +23,7 @@ class m180828_133123_create_table_transit_rules extends Migration
      */
     public function safeDown()
     {
-        echo "m180828_133123_create_table_transit_rules cannot be reverted.\n";
+        echo "m180828_131809_create_table_cultures cannot be reverted.\n";
 
         return false;
     }
@@ -36,7 +37,7 @@ class m180828_133123_create_table_transit_rules extends Migration
 
     public function down()
     {
-        echo "m180828_133123_create_table_transit_rules cannot be reverted.\n";
+        echo "m180828_131809_create_table_cultures cannot be reverted.\n";
 
         return false;
     }

@@ -5,25 +5,25 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "transit_rule_instances".
+ * This is the model class for table "rule_instances".
  *
  * @property int $id
- * @property int $transit_rule_id
+ * @property int $rule_id
  * @property int $work_shift_id
  * @property int $quota
  * @property int $registered
  *
- * @property TransitRules $transitRule
+ * @property Rules $rule
  * @property WorkShifts $workShift
  */
-class TransitRuleInstances extends \yii\db\ActiveRecord
+class RuleInstances extends \yii\db\ActiveRecord
 {
     /**
      * {@inheritdoc}
      */
     public static function tableName()
     {
-        return 'transit_rule_instances';
+        return 'rule_instances';
     }
 
     /**
@@ -32,9 +32,9 @@ class TransitRuleInstances extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['transit_rule_id', 'work_shift_id'], 'required'],
-            [['transit_rule_id', 'work_shift_id', 'quota', 'registered'], 'integer'],
-            [['transit_rule_id'], 'exist', 'skipOnError' => true, 'targetClass' => TransitRules::className(), 'targetAttribute' => ['transit_rule_id' => 'id']],
+            [['rule_id', 'work_shift_id'], 'required'],
+            [['rule_id', 'work_shift_id', 'quota', 'registered'], 'integer'],
+            [['rule_id'], 'exist', 'skipOnError' => true, 'targetClass' => Rules::className(), 'targetAttribute' => ['rule_id' => 'id']],
             [['work_shift_id'], 'exist', 'skipOnError' => true, 'targetClass' => WorkShifts::className(), 'targetAttribute' => ['work_shift_id' => 'id']],
         ];
     }
@@ -46,7 +46,7 @@ class TransitRuleInstances extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'transit_rule_id' => 'Transit Rule ID',
+            'rule_id' => 'Rule ID',
             'work_shift_id' => 'Work Shift ID',
             'quota' => 'Quota',
             'registered' => 'Registered',
@@ -56,9 +56,9 @@ class TransitRuleInstances extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransitRule()
+    public function getRule()
     {
-        return $this->hasOne(TransitRules::className(), ['id' => 'transit_rule_id']);
+        return $this->hasOne(Rules::className(), ['id' => 'rule_id']);
     }
 
     /**

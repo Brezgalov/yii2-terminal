@@ -12,7 +12,7 @@ use Yii;
  * @property int $start
  * @property int $end
  *
- * @property TransitRuleInstances[] $transitRuleInstances
+ * @property RuleInstances[] $ruleInstances
  * @property Days $day
  */
 class WorkShifts extends \yii\db\ActiveRecord
@@ -53,9 +53,9 @@ class WorkShifts extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransitRuleInstances()
+    public function getRuleInstances()
     {
-        return $this->hasMany(TransitRuleInstances::className(), ['work_shift_id' => 'id']);
+        return $this->hasMany(RuleInstances::className(), ['work_shift_id' => 'id']);
     }
 
     /**

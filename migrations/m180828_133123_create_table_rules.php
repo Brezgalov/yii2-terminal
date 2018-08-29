@@ -3,18 +3,17 @@
 use yii\db\Migration;
 
 /**
- * Class m180828_131809_create_table_crops
+ * Class m180828_133123_create_table_rules
  */
-class m180828_131809_create_table_crops extends Migration
+class m180828_133123_create_table_rules extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('crops', [
-            'id'    => $this->primaryKey(),
-            'name'  => $this->string()->notNull(),
+        $this->createTable('rules', [
+            'id'        => $this->primaryKey(),
         ]);
     }
 
@@ -23,7 +22,7 @@ class m180828_131809_create_table_crops extends Migration
      */
     public function safeDown()
     {
-        echo "m180828_131809_create_table_crops cannot be reverted.\n";
+        echo "m180828_133123_create_table_rules cannot be reverted.\n";
 
         return false;
     }
@@ -37,7 +36,7 @@ class m180828_131809_create_table_crops extends Migration
 
     public function down()
     {
-        echo "m180828_131809_create_table_crops cannot be reverted.\n";
+        echo "m180828_133123_create_table_rules cannot be reverted.\n";
 
         return false;
     }
