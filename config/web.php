@@ -52,7 +52,7 @@ $config = [
             'rules'             => [
                 [
                     'class'         => 'yii\rest\UrlRule',
-                    'only'          => ['index', 'view'],
+                    'only'          => ['index', 'view', 'create'],
                     'controller'    => 'days',
                     'prefix'        => 'api'
                 ],
