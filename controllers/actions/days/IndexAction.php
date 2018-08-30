@@ -13,8 +13,12 @@ class IndexAction extends \yii\rest\IndexAction
 {
     public function run()
     {
+        if ($this->checkAccess) {
+            call_user_func($this->checkAccess, $this->id);
+        }
+
         $dbDays = Days::find();
-        //$this->applyParams($dbDays);
+        $this->applyParams($dbDays);
         $days = $dbDays
             ->with(['workShifts.ruleInstances.rule.cultures'])
             ->orderBy('date')
@@ -60,19 +64,13 @@ class IndexAction extends \yii\rest\IndexAction
      */
     protected function applyParams(ActiveQuery &$model)
     {
-        //@TODO: параметры?
-//        $month  = intval(\Yii::$app->request->get('month'));
-//        $year   = intval(\Yii::$app->request->get('year'));
-//        if ($month >= 1 && $month <= 12) {
-//            $year           = date('Y', time());
-//            $monthPadded    = str_pad($month, 2, '0', STR_PAD_LEFT);
-//            $dateLeft       = '2018-'.$monthPadded.'-1';
-//            $dateRight      = date('Y-m-t', strtotime($dateLeft));
-//            var_dump([$dateLeft, $dateRight]);die();
-//            $dbDays         = $dbDays
-//                ->where(['>=', 'date', $dateLeft])
-//                ->andWhere(['<=', 'date', $dateRight])
-//            ;
-//        }
+        $limit = intval(\Yii::$app->request->get('limit'));
+        $offset = intval(\Yii::$app->request->get('offset'));
+        if ($limit > 0 && $offset >= 0) {
+            $model
+                ->limit($limit)
+                ->offset($offset)
+            ;
+        }
     }
 }

@@ -1,12 +1,7 @@
 <?php
 namespace app\controllers;
 
-use app\models\RetailersGroupRetailers;
-use app\models\RetailersGroups;
-use app\models\RuleCultures;
-use app\models\RuleInstances;
 use app\models\RuleRetailers;
-use app\models\WorkShifts;
 use yii\rest\ActiveController;
 
 /**
@@ -14,9 +9,6 @@ use yii\rest\ActiveController;
  */
 class DaysController extends ActiveController
 {
-    const DAY_FIRST_SECOND  = 0;
-    const DAY_LAST_SECOND   = 86400;
-
 	public $modelClass = 'app\models\Days';
 
     /**
@@ -27,8 +19,8 @@ class DaysController extends ActiveController
         $actions = parent::actions();
         $actions['index']['class']  = '\app\controllers\actions\days\IndexAction';
         $actions['view']['class']   = '\app\controllers\actions\days\ViewAction';
-        //$actions['create']['class'] = '\app\controllers\actions\days\CreateAction';
-
+        $actions['create']['class'] = '\app\controllers\actions\days\CreateAction';
+        $actions['delete']['class'] = '\app\controllers\actions\days\DeleteAction';
         return $actions;
     }
 
@@ -38,12 +30,20 @@ class DaysController extends ActiveController
      *     tags={"Days"},
      *     summary="Превью для списка дней",
      *     @SWG\Parameter(
-     *          name="month",
      *          in="query",
-     *          required=false,
+     *          name="limit",
      *          type="integer",
-     *          maximum=12,
-     *          minimum=1
+     *          minimum=1,
+     *          required=false,
+     *          description="Сколько записей выбрать?"
+     *     ),
+     *     @SWG\Parameter(
+     *          in="query",
+     *          name="offset",
+     *          type="integer",
+     *          minimum=0,
+     *          required=false,
+     *          description="Сколько записей пропустить?"
      *     ),
      *     @SWG\Response(
  	 *      	response=200,
@@ -71,12 +71,15 @@ class DaysController extends ActiveController
      *     @SWG\Parameter(
      *          in="path",
      *          name="id",
-     *          type="integer"
+     *          type="integer",
+     *          required=true,
+     *          description="Идентификатор дня",
+     *          minimum=1
      *     ),
      *     @SWG\Response(
      *          response=200,
-     *          description="123",
-     *          @SWG\Schema(ref="#/definitions/Day")
+     *          description="Успешное выполнение",
+     *          @SWG\Schema(ref="#/definitions/DayInfo")
      *     )
      * )
      */
@@ -85,8 +88,61 @@ class DaysController extends ActiveController
         return parent::actionView($id);
     }
 
+    /**
+     * @SWG\Post(
+     *     path="/api/days",
+     *     tags={"Days"},
+     *     summary="Создаем день",
+     *     @SWG\Parameter(
+     *          in="query",
+     *          name="date",
+     *          type="string",
+     *          required=true,
+     *          description="Дата в формате Y-m-d"
+     *     ),
+     *     @SWG\Response(
+     *          response=200,
+     *          description="Успешное выполнение",
+     *          @SWG\Schema(ref="#/definitions/Day")
+     *     ),
+     *     @SWG\Response(
+     *          response=422,
+     *          description="Ошибка валидации",
+     *          @SWG\Schema(ref="#/definitions/ValidationError")
+     *     )
+     * )
+     */
     public function actionCreate($id)
     {
         return parent::actionCreate($id);
+    }
+
+    /**
+     * @SWG\Delete(
+     *     path="/api/days/{id}",
+     *     tags={"Days"},
+     *     summary="Удаление дня и всего что с ним связано",
+     *     @SWG\Parameter(
+     *          in="path",
+     *          name="id",
+     *          type="integer",
+     *          required=true,
+     *          description="Идентификатор удаляемого дня",
+     *          minimum=1
+     *     ),
+     *     @SWG\Response(
+     *          response=204,
+     *          description="Успешный ответ"
+     *     ),
+     *     @SWG\Response(
+     *          response=404,
+     *          description="Удаляемый объект не найден",
+     *          @SWG\Schema(ref="#/definitions/NotFoundHttpException")
+     *     )
+     * )
+     */
+    public function actionDelete($id)
+    {
+        return parent::actionDelete($id);
     }
 }

@@ -14,6 +14,9 @@ use Yii;
  */
 class Days extends \yii\db\ActiveRecord
 {
+    const DAY_FIRST_SECOND  = 0;
+    const DAY_LAST_SECOND   = 86400;
+
     /**
      * {@inheritdoc}
      */

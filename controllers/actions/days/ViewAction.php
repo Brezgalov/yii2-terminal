@@ -17,6 +17,10 @@ class ViewAction extends \yii\rest\ViewAction
 {
     public function run($id)
     {
+        if ($this->checkAccess) {
+            call_user_func($this->checkAccess, $this->id);
+        }
+
         $workShifts = WorkShifts::find()
             ->select(['id', 'start', 'end'])
             ->where(['=', 'day_id', $id])
