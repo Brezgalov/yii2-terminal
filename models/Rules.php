@@ -60,10 +60,10 @@ class Rules extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getRuleRetailers()
-    {
-        return $this->hasMany(RuleRetailers::className(), ['rule_id' => 'id']);
-    }
+//    public function getRuleRetailers()
+//    {
+//        return $this->hasMany(RuleRetailers::className(), ['rule_id' => 'id']);
+//    }
 
     /**
      * @return \yii\db\ActiveQuery
@@ -73,17 +73,6 @@ class Rules extends \yii\db\ActiveRecord
         return $this
             ->hasMany(Cultures::className(), ['id' => 'culture_id'])
             ->via('ruleCultures')
-        ;
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRetailers()
-    {
-        return $this
-            ->hasMany(Retailers::className(), ['id' => 'retailer_id'])
-            ->via('ruleRetailers')
         ;
     }
 }

@@ -10,7 +10,7 @@ use Yii;
  * @property int $id
  * @property string $name
  *
- * @property TransitRuleRetailers[] $transitRuleRetailers
+ * @property RetailersGroupRetailers[] $retailersGroupRetailers
  */
 class Retailers extends \yii\db\ActiveRecord
 {
@@ -47,8 +47,8 @@ class Retailers extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getTransitRuleRetailers()
+    public function getRetailersGroupRetailers()
     {
-        return $this->hasMany(TransitRuleRetailers::className(), ['retailer_id' => 'id']);
+        return $this->hasMany(RetailersGroupRetailers::className(), ['retailer_id' => 'id']);
     }
 }

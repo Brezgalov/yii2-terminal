@@ -1,6 +1,8 @@
 <?php
 namespace app\controllers;
 
+use app\models\RetailersGroupRetailers;
+use app\models\RetailersGroups;
 use app\models\RuleCultures;
 use app\models\RuleInstances;
 use app\models\RuleRetailers;
@@ -162,21 +164,30 @@ class DaysController extends ActiveController
                     ->asArray()
                     ->all()
                 ;
-                $retailers = RuleRetailers::find()
-                    ->select([
-                        '*',
-                        'retailers.name'
-                    ])
-                    ->innerJoin('retailers', 'retailers.id = rule_retailers.retailer_id')
+                $retailerGroups = RetailersGroups::find()
                     ->where(['=', 'rule_id', $rule['rule_id']])
                     ->asArray()
                     ->all()
                 ;
+                foreach ($retailerGroups as $i => $retailerGroup) {
+                    $groupRetailers = RetailersGroupRetailers::find()
+                        ->select([
+                            '*',
+                            'retailers.name'
+                        ])
+                        ->innerJoin('retailers', 'retailers.id = retailers_group_retailers.retailers_group_id')
+                        ->asArray()
+                        ->all()
+                    ;
+                    $retailerGroups[$i]['retailers'] = array_column($groupRetailers, 'name');
+                    unset($retailerGroups[$i]['rule_id']);
+                }
+
                 $rulesAgg[] = [
-                    'quota'     => $rule['quotaTotal'],
-                    'count'     => $rule['countTotal'],
-                    'cultures'  => array_column($cultures, 'name'),
-                    'retailers' => array_column($retailers, 'name'),
+                    'quota'             => $rule['quotaTotal'],
+                    'count'             => $rule['countTotal'],
+                    'cultures'          => array_column($cultures, 'name'),
+                    'retailersGroups'    => $retailerGroups,
                 ];
             }
             $workShifts[$i]['rules'] = $rulesAgg;
