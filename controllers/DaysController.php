@@ -14,6 +14,9 @@ use app\models\WorkShifts;
  */
 class DaysController extends ActiveController 
 {
+    const DAY_FIRST_SECOND  = 0;
+    const DAY_LAST_SECOND   = 86400;
+
 	public $modelClass = 'app\models\Days';
 
     /**
@@ -28,7 +31,8 @@ class DaysController extends ActiveController
     }
 
 	/**
-     * @SWG\Get(path="/api/days",
+     * @SWG\Get(
+     *     path="/api/days",
      *     tags={"Days"},
      *     summary="Превью для списка дней",
      *     @SWG\Parameter(
@@ -41,7 +45,7 @@ class DaysController extends ActiveController
      *     ),
      *     @SWG\Response(
  	 *      	response=200,
- 	 *          description="Example extended response",
+     *          description="123",
  	 *          @SWG\Schema(
  	 *              @SWG\Property(
 	 *					property="days",
@@ -55,6 +59,7 @@ class DaysController extends ActiveController
 	public function actionIndex()
 	{
         $dbDays = Days::find();
+        //@TODO: параметры?
 //        $month  = intval(\Yii::$app->request->get('month'));
 //        $year   = intval(\Yii::$app->request->get('year'));
 //        if ($month >= 1 && $month <= 12) {
@@ -108,7 +113,23 @@ class DaysController extends ActiveController
         return ['days' => $days];
 	}
 
-
+    /**
+     * @SWG\Get(
+     *     path="/api/days/{id}",
+     *     tags={"Days"},
+     *     summary="Детализация одного дня",
+     *     @SWG\Parameter(
+     *          in="path",
+     *          name="id",
+     *          type="integer"
+     *     ),
+     *     @SWG\Response(
+     *          response=200,
+     *          description="123",
+     *          @SWG\Schema(ref="#/definitions/Day")
+     *     )
+     * )
+     */
 	public function actionView($id)
     {
         $workShifts = WorkShifts::find()
@@ -160,6 +181,6 @@ class DaysController extends ActiveController
             }
             $workShifts[$i]['rules'] = $rulesAgg;
         }
-        return ['workshifts' => $workShifts];
+        return ['workShifts' => $workShifts];
     }
 }

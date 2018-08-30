@@ -13,9 +13,9 @@ class m180828_134047_create_table_rule_cultures extends Migration
     public function safeUp()
     {
         $this->createTable('rule_cultures', [
-            'id'                        => $this->primaryKey(),
+            'id'                => $this->primaryKey(),
             'rule_id'           => $this->integer()->notNull(),
-            'culture_id'                   => $this->integer()->notNull(),
+            'culture_id'        => $this->integer()->notNull(),
         ]);
         $this->createIndex(
             'rule_id',
