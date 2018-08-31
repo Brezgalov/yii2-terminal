@@ -17,17 +17,13 @@ use yii\web\ServerErrorHttpException;
  * @property RuleInstances[] $ruleInstances
  * @property Days $day
  */
-class WorkShifts extends \yii\db\ActiveRecord
+class WorkShifts extends \app\models\base\WorkShifts
 {
-    protected $rulesAgg = [];
-
     /**
-     * {@inheritdoc}
+     * Аггрегация, необходима при добавлении смены
+     * @var array
      */
-    public static function tableName()
-    {
-        return 'work_shifts';
-    }
+    protected $rulesAgg = [];
 
     /**
      * {@inheritdoc}
@@ -52,35 +48,6 @@ class WorkShifts extends \yii\db\ActiveRecord
         if ($count > 1) {
             $this->addError($attribute, 'Этот день уже разбит на смены');
         }
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'day_id' => 'Day ID',
-            'start' => 'Start',
-            'end' => 'End',
-        ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRuleInstances()
-    {
-        return $this->hasMany(RuleInstances::className(), ['work_shift_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getDay()
-    {
-        return $this->hasOne(Days::className(), ['id' => 'day_id']);
     }
 
     /**

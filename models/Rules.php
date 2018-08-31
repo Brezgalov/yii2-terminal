@@ -2,8 +2,6 @@
 
 namespace app\models;
 
-use Yii;
-
 /**
  * This is the model class for table "rules".
  *
@@ -13,55 +11,12 @@ use Yii;
  * @property RuleCultures[] $ruleCultures
  * @property RuleInstances[] $ruleInstances
  */
-class Rules extends \yii\db\ActiveRecord
+class Rules extends \app\models\base\Rules
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
+    public function getCultures()
     {
-        return 'rules';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-        ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRetailersGroups()
-    {
-        return $this->hasMany(RetailersGroups::className(), ['rule_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRuleCultures()
-    {
-        return $this->hasMany(RuleCultures::className(), ['rule_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRuleInstances()
-    {
-        return $this->hasMany(RuleInstances::className(), ['rule_id' => 'id']);
+        return $this->hasMany(Cultures::className(), ['id' => 'culture_id'])
+            ->via('ruleCultures')
+        ;
     }
 }

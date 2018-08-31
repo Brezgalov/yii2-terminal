@@ -12,43 +12,6 @@ use Yii;
  *
  * @property RetailersGroupRetailers[] $retailersGroupRetailers
  */
-class Retailers extends \yii\db\ActiveRecord
+class Retailers extends \app\models\base\Retailers
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'retailers';
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
-    {
-        return [
-            [['name'], 'required'],
-            [['name'], 'string', 'max' => 255],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'name' => 'Name',
-        ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getRetailersGroupRetailers()
-    {
-        return $this->hasMany(RetailersGroupRetailers::className(), ['retailer_id' => 'id']);
-    }
 }

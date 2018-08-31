@@ -12,18 +12,10 @@ use Yii;
  *
  * @property WorkShifts[] $workShifts
  */
-class Days extends \yii\db\ActiveRecord
+class Days extends \app\models\base\Days
 {
     const DAY_FIRST_SECOND  = 0;
     const DAY_LAST_SECOND   = 86400;
-
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'days';
-    }
 
     /**
      * {@inheritdoc}
@@ -35,25 +27,6 @@ class Days extends \yii\db\ActiveRecord
             [['date'], 'unique',    'message' => 'Дата {value} уже зарегистрирована в системе'],
             [['date'], 'safe'],
         ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function attributeLabels()
-    {
-        return [
-            'id' => 'ID',
-            'date' => 'Date',
-        ];
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getWorkShifts()
-    {
-        return $this->hasMany(WorkShifts::className(), ['day_id' => 'id']);
     }
 
     /**
