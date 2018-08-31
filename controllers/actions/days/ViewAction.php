@@ -6,6 +6,7 @@ use app\models\RuleInstances;
 use app\models\RuleCultures;
 use app\models\RetailersGroups;
 use app\models\RetailersGroupRetailers;
+use yii\web\NotFoundHttpException;
 
 /**
  * Class ViewAction
@@ -79,6 +80,10 @@ class ViewAction extends \yii\rest\ViewAction
                 ];
             }
             $workShifts[$i]['rules'] = $rulesAgg;
+        }
+
+        if (empty($workShifts)) {
+            throw new NotFoundHttpException('Object not found: '.$id, 0);
         }
         return ['workShifts' => $workShifts];
     }

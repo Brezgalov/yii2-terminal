@@ -80,6 +80,11 @@ class DaysController extends ActiveController
      *          response=200,
      *          description="Успешное выполнение",
      *          @SWG\Schema(ref="#/definitions/DayInfo")
+     *     ),
+     *     @SWG\Response(
+     *          response=404,
+     *          description="Идентификатор не найден в системе",
+     *          @SWG\Schema(ref="#/definitions/NotFoundHttpException")
      *     )
      * )
      */
