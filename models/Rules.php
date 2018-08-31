@@ -9,9 +9,9 @@ use Yii;
  *
  * @property int $id
  *
+ * @property RetailersGroups[] $retailersGroups
  * @property RuleCultures[] $ruleCultures
  * @property RuleInstances[] $ruleInstances
- * @property RuleRetailers[] $ruleRetailers
  */
 class Rules extends \yii\db\ActiveRecord
 {
@@ -44,6 +44,14 @@ class Rules extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getRetailersGroups()
+    {
+        return $this->hasMany(RetailersGroups::className(), ['rule_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getRuleCultures()
     {
         return $this->hasMany(RuleCultures::className(), ['rule_id' => 'id']);
@@ -55,24 +63,5 @@ class Rules extends \yii\db\ActiveRecord
     public function getRuleInstances()
     {
         return $this->hasMany(RuleInstances::className(), ['rule_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-//    public function getRuleRetailers()
-//    {
-//        return $this->hasMany(RuleRetailers::className(), ['rule_id' => 'id']);
-//    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getCultures()
-    {
-        return $this
-            ->hasMany(Cultures::className(), ['id' => 'culture_id'])
-            ->via('ruleCultures')
-        ;
     }
 }

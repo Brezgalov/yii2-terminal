@@ -52,9 +52,11 @@ $config = [
             'rules'             => [
                 [
                     'class'         => 'yii\rest\UrlRule',
-                    'only'          => ['index', 'view', 'create', 'delete'],
                     'controller'    => 'days',
-                    'prefix'        => 'api'
+                    'prefix'        => 'api',
+                    'extraPatterns' => [
+                        'POST duplicate'   => 'duplicate',
+                    ],
                 ],
             ],
         ]

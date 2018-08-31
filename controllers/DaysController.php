@@ -21,6 +21,11 @@ class DaysController extends ActiveController
         $actions['view']['class']   = '\app\controllers\actions\days\ViewAction';
         $actions['create']['class'] = '\app\controllers\actions\days\CreateAction';
         $actions['delete']['class'] = '\app\controllers\actions\days\DeleteAction';
+        $actions['duplicate'] = [
+            'class' => '\app\controllers\actions\days\DuplicateAction',
+            'modelClass' => $this->modelClass,
+            'checkAccess' => [$this, 'checkAccess'],
+        ];
         return $actions;
     }
 
@@ -106,7 +111,7 @@ class DaysController extends ActiveController
      *          description="Дата в формате Y-m-d"
      *     ),
      *     @SWG\Response(
-     *          response=200,
+     *          response=201,
      *          description="Успешное выполнение",
      *          @SWG\Schema(ref="#/definitions/Day")
      *     ),
@@ -149,5 +154,42 @@ class DaysController extends ActiveController
     public function actionDelete($id)
     {
         return parent::actionDelete($id);
+    }
+
+    /**
+     * @SWG\Post(
+     *     path="/api/days/duplicate",
+     *     tags={"Days"},
+     *     summary="Копируем день по ID для указанной даты",
+     *     @SWG\Parameter(
+     *          in="formData",
+     *          name="id",
+     *          type="integer",
+     *          required=true,
+     *          description="Идентификатор копируемого дня",
+     *          minimum=1
+     *     ),
+     *     @SWG\Parameter(
+     *          in="formData",
+     *          name="date",
+     *          type="string",
+     *          required=true,
+     *          description="Дата в формате Y-m-d"
+     *     ),
+     *     @SWG\Response(
+     *          response=201,
+     *          description="Успешный ответ",
+     *          @SWG\Schema(ref="#/definitions/Day")
+     *     ),
+     *     @SWG\Response(
+     *          response=422,
+     *          description="Ошибка валидации",
+     *          @SWG\Schema(ref="#/definitions/ValidationError")
+     *     )
+     * )
+     */
+    public function actionDuplicate()
+    {
+
     }
 }

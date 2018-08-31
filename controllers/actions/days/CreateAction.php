@@ -7,6 +7,12 @@ use yii\web\ServerErrorHttpException;
 use Yii;
 use yii\helpers\Url;
 
+/**
+ * Class CreateAction
+ * @package app\controllers\actions\days
+ *
+ * Создаем запись в бд
+ */
 class CreateAction extends \yii\rest\CreateAction
 {
     public function run()

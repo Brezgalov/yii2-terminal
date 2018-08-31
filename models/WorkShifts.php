@@ -65,4 +65,14 @@ class WorkShifts extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Days::className(), ['id' => 'day_id']);
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRulesRel()
+    {
+        return $this->hasMany(Rules::className(), ['id' => 'rule_id'])
+            ->via('ruleInstances')
+        ;
+    }
 }
