@@ -58,6 +58,12 @@ $config = [
                         'POST duplicate'   => 'duplicate',
                     ],
                 ],
+                [
+                    'class'         => 'yii\rest\UrlRule',
+                    'controller'    => 'work-shifts',
+                    'only'          => ['create'],
+                    'prefix'        => 'api',
+                ],
             ],
         ]
     ],
