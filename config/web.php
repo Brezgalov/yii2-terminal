@@ -76,6 +76,11 @@ $config = [
                     'only'          => ['update'],
                     'prefix'        => 'api',
                 ],
+                [
+                    'class'         => 'yii\rest\UrlRule',
+                    'controller'    => 'cultures',
+                    'prefix'        => 'api',
+                ],
             ],
         ]
     ],

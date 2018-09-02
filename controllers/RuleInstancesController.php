@@ -4,7 +4,7 @@ namespace app\controllers;
 use yii\rest\ActiveController;
 
 /**
- * Рест контроллер управления правилами
+ * Рест контроллер управления инстансами правил
  */
 class RuleInstancesController extends ActiveController
 {
