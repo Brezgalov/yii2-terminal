@@ -73,6 +73,7 @@ class ViewAction extends \yii\rest\ViewAction
                 }
 
                 $rulesAgg[] = [
+                    'id'                => $rule['id'],
                     'quota'             => $rule['quotaTotal'],
                     'count'             => $rule['countTotal'],
                     'cultures'          => array_column($cultures, 'name'),

@@ -4,6 +4,7 @@ namespace app\controllers\actions\rules;
 use Yii;
 use app\models\WorkShifts;
 use app\models\RuleInstances;
+use app\models\RuleCultures;
 use app\models\forms\rules\CreateForm;
 
 /**
@@ -52,6 +53,13 @@ class CreateAction extends \yii\rest\CreateAction
 				$transaction->rollback();
 				return $instance;
 			}
+		}
+
+		foreach($form->cultures as $culture_id) {
+			$cultureRel 			= new RuleCultures();
+			$cultureRel->rule_id 	= $model->id;
+			$cultureRel->culture_id = $culture_id;
+			$cultureRel->save();
 		}
 
 		$transaction->commit();

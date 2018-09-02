@@ -67,7 +67,7 @@ $config = [
                 [
                     'class'         => 'yii\rest\UrlRule',
                     'controller'    => 'rules',
-                    'only'          => ['create', 'update'],
+                    'only'          => ['create'],
                     'prefix'        => 'api',
                 ],
             ],
