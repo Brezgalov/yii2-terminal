@@ -43,42 +43,7 @@ class ViewAction extends \yii\rest\ViewAction
             ;
             $rulesAgg = [];
             foreach($rules as $rule) {
-                $cultures = RuleCultures::find()
-                    ->select([
-                        'cultures.name',
-                    ])
-                    ->innerJoin('cultures', 'cultures.id = rule_cultures.culture_id')
-                    ->where(['=', 'rule_id', $rule['rule_id']])
-                    ->asArray()
-                    ->all()
-                ;
-                $retailerGroups = RetailersGroups::find()
-                    ->where(['=', 'rule_id', $rule['rule_id']])
-                    ->asArray()
-                    ->all()
-                ;
-                foreach ($retailerGroups as $i => $retailerGroup) {
-                    $groupRetailers = RetailersGroupRetailers::find()
-                        ->select([
-                            '*',
-                            'retailers.name'
-                        ])
-                        ->innerJoin('retailers', 'retailers.id = retailers_group_retailers.retailer_id')
-                        ->where(['=','retailers_group_id', $retailerGroup['id']])
-                        ->asArray()
-                        ->all()
-                    ;
-                    $retailerGroups[$i]['retailers'] = array_column($groupRetailers, 'name');
-                    unset($retailerGroups[$i]['rule_id']);
-                }
-
-                $rulesAgg[] = [
-                    'id'                => $rule['id'],
-                    'quota'             => $rule['quotaTotal'],
-                    'count'             => $rule['countTotal'],
-                    'cultures'          => array_column($cultures, 'name'),
-                    'retailersGroups'   => $retailerGroups,
-                ];
+                $rulesAgg = $this->getRuleInfo($rule);
             }
             $workShifts[$i]['rules'] = $rulesAgg;
         }
@@ -87,5 +52,45 @@ class ViewAction extends \yii\rest\ViewAction
             throw new NotFoundHttpException('Object not found: '.$id, 0);
         }
         return ['workShifts' => $workShifts];
+    }
+
+    /**
+     * Собираем инфу по инстансу
+     *
+     * @param array $rule
+     * @return array
+     */
+    protected function getRuleInfo($rule) 
+    {
+        $cultures = RuleCultures::find()
+            ->select([
+                'cultures.name',
+            ])
+            ->innerJoin('cultures', 'cultures.id = rule_cultures.culture_id')
+            ->where(['=', 'rule_id', $rule['rule_id']])
+            ->asArray()
+            ->all()
+        ;
+        $retailersGroups = RetailersGroups::find()
+            ->with('retailers')
+            ->where(['=', 'rule_id', $rule['rule_id']])
+            ->asArray()
+            ->all()
+        ;           
+        
+        for ($i=0; $i < count($retailersGroups); $i++) { 
+            unset(
+                $retailersGroups[$i]['rule_id'],
+                $retailersGroups[$i]['retailersGroupRetailers']
+            );
+        }
+
+        return [
+            'id'                => $rule['id'],
+            'quota'             => $rule['quotaTotal'],
+            'count'             => $rule['countTotal'],
+            'cultures'          => array_column($cultures, 'name'),
+            'retailersGroups'   => $retailersGroups,
+        ];
     }
 }

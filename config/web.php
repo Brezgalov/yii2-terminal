@@ -67,7 +67,7 @@ $config = [
                 [
                     'class'         => 'yii\rest\UrlRule',
                     'controller'    => 'rules',
-                    //'only'          => ['create'],
+                    'only'          => ['create'],
                     'prefix'        => 'api',
                 ],
                 [
@@ -81,8 +81,14 @@ $config = [
                     'controller'    => 'cultures',
                     'prefix'        => 'api',
                 ],
+                [
+                    'class'         => 'yii\rest\UrlRule',
+                    'controller'    => 'retailers-groups',
+                    'only'          => ['create', 'delete'],
+                    'prefix'        => 'api',
+                ],
             ],
-        ]
+        ],
     ],
     'params' => $params,
 ];

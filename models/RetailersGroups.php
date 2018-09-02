@@ -16,5 +16,10 @@ use Yii;
  */
 class RetailersGroups extends \app\models\base\RetailersGroups
 {
-
+	public function getRetailers()
+	{
+		return $this->hasMany(Retailers::className(), ['id' => 'retailer_id'])
+            ->via('retailersGroupRetailers')
+        ;
+	}
 }
