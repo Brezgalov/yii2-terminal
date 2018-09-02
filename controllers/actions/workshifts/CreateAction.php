@@ -18,9 +18,16 @@ class CreateAction extends \yii\rest\CreateAction
 
         $model->load(Yii::$app->getRequest()->getBodyParams(), '');
         if ($model->validate()) {
-            $model->saveRuleAgg();
-            $model->save();
-            $model->concatShifts();
+            $transaction = Yii::$app->db->beginTransaction();
+            try {
+                $model->saveRuleAgg();
+                $model->save();
+                $model->concatShifts();
+                $transaction->commit();
+            } catch (\Exception $ex) {
+                $transaction->rollback();
+                throw $ex;
+            }
         }
         return $model;
     }

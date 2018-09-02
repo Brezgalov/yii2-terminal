@@ -44,9 +44,13 @@ class WorkShifts extends \app\models\base\WorkShifts
      */
     public function validateWorkShiftsCount($attribute, $params, $validator)
     {
-        $count = WorkShifts::find()->where(['=', 'day_id', $this->{$attribute}])->count();
+        $count = WorkShifts::find()->where(['=', $attribute, $this->{$attribute}])->count();
         if ($count > 1) {
-            $this->addError($attribute, 'Этот день уже разбит на смены');
+            $min = (int) WorkShifts::find()->where(['=', $attribute, $this->{$attribute}])->min('start');
+            $max = (int) WorkShifts::find()->where(['=', $attribute, $this->{$attribute}])->max('end');
+            if ($min === Days::DAY_FIRST_SECOND && Days::DAY_LAST_SECOND) {
+                $this->addError($attribute, 'Этот день уже разбит на смены');
+            }            
         }
     }
 
@@ -137,7 +141,7 @@ class WorkShifts extends \app\models\base\WorkShifts
             return true;
         }
 
-        $prepareBuild = [];
+        $prepareBuild = [];//предполагается что существует смена 0-86400 
         $starts = array_column($workShifts, 'start');
         $ends   = array_column($workShifts, 'end');
         $times  = array_merge($starts, $ends);
@@ -148,24 +152,18 @@ class WorkShifts extends \app\models\base\WorkShifts
             }
             $prepareBuild[] = [$times[$i], $times[$i+1]];
         }
-
-        $transaction = Yii::$app->db->beginTransaction();
-        try {
-            WorkShifts::deleteAll('day_id = :day_id', [':day_id' => $this->day_id]);
-            foreach ($prepareBuild as $timePeriod) {
-                $tmp = new WorkShifts();
-                $tmp->day_id = $this->day_id;
-                $tmp->start = $timePeriod[0];
-                $tmp->end   = $timePeriod[1];
-                if (!$tmp->save()) {
-                    throw new Exception("Ошибка сохранения. Обратитесь к администратору сервера");
-                }
+     
+        WorkShifts::deleteAll('day_id = :day_id', [':day_id' => $this->day_id]);
+        foreach ($prepareBuild as $timePeriod) {
+            $tmp = new WorkShifts();
+            $tmp->day_id = $this->day_id;
+            $tmp->start = $timePeriod[0];
+            $tmp->end   = $timePeriod[1];
+            if (!$tmp->save()) {
+                throw new Exception("Ошибка сохранения. Обратитесь к администратору сервера");
             }
-            $transaction->commit();
-        } catch (\Exception $ex) {
-            $transaction->rollback();
-            throw $ex;
         }
+            
         $this->rebuildInstancesByAgg();
         return true;
     }
