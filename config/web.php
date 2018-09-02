@@ -87,6 +87,11 @@ $config = [
                     'only'          => ['create', 'delete'],
                     'prefix'        => 'api',
                 ],
+                [
+                    'class'         => 'yii\rest\UrlRule',
+                    'controller'    => 'retailers-group-retailers',
+                    'prefix'        => 'api',
+                ],
             ],
         ],
     ],

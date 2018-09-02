@@ -6,7 +6,7 @@ use yii\rest\ActiveController;
 /**
  * Рест контроллер управления правилами
  */
-class RetailersGroupsController extends ActiveController
+class RetailersGroupRetailersController extends ActiveController
 {
-	public $modelClass = 'app\models\RetailersGroups';
+	public $modelClass = 'app\models\RetailersGroupRetailers';
 }
