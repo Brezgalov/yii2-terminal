@@ -97,12 +97,12 @@ class WorkShifts extends \app\models\base\WorkShifts
                 $totalValues = [
                     'quota' => [
                         'available' => $agg['quotaTotal'],
-                        'forOne'    => intval($agg['quotaTotal'] / $workShiftsCount),
+                        'forOne'    => round($agg['quotaTotal'] / $workShiftsCount),
                         'shared'    => 0,
                     ],
                     'count' => [
                         'available' => $agg['countTotal'],
-                        'forOne'    => intval($agg['countTotal'] / $workShiftsCount),
+                        'forOne'    => round($agg['countTotal'] / $workShiftsCount),
                         'shared'    => 0,
                     ],
                 ];
