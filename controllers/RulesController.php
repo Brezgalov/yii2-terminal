@@ -65,4 +65,33 @@ class RulesController extends ActiveController
     {
         return parent::actionCreate();
     }
+
+    /**
+     * @SWG\Delete(
+     *     path="/api/rules/{id}",
+     *     tags={"Rules"},
+     *     summary="Удаление правила",
+     *     @SWG\Parameter(
+     *          in="path",
+     *          name="id",
+     *          type="integer",
+     *          required=true,
+     *          description="Идентификатор удаляемого правила",
+     *          minimum=1
+     *     ),
+     *     @SWG\Response(
+     *          response=204,
+     *          description="Успешный ответ"
+     *     ),
+     *     @SWG\Response(
+     *          response=404,
+     *          description="Удаляемый объект не найден",
+     *          @SWG\Schema(ref="#/definitions/NotFoundHttpException")
+     *     )
+     * )
+     */
+    public function actionDelete($id)
+    {
+        return parent::actionDelete($id);
+    }
 }
