@@ -90,6 +90,23 @@ class WorkShifts extends \app\models\base\WorkShifts
         ;
     }
 
+    protected function refetchCounts($dayId = null)
+    {
+        //@TODO: родить что-нибудь адекватное для обновления count
+//        $dbDays = Days::find()
+//            ->with('workShifts');
+//        if (!empty($dayId)) {
+//            $dbDays = $dbDays->where(['=', 'id', $dayId]);
+//        }
+//        $days = $dbDays->all();
+//        foreach ($days as $day) {
+//            foreach ($day->workShifts as $workShift) {
+//                $left = strtotime($day->date) + $workShift->start;
+//            }
+//
+//        }
+    }
+
     /**
      * Вызов concatShifts убивает инстансы, нам нужно собрать их заного и правильно распределить квоты
      */
@@ -99,34 +116,25 @@ class WorkShifts extends \app\models\base\WorkShifts
             $workShifts = WorkShifts::find()->where(['=', 'day_id', $this->day_id])->all();
             $workShiftsCount = count($workShifts);
             foreach ($this->rulesAgg as $agg) {
-                $totalValues = [
-                    'quota' => [
-                        'available' => $agg['quotaTotal'],
-                        'forOne'    => round($agg['quotaTotal'] / $workShiftsCount),
-                        'shared'    => 0,
-                    ],
-                    'count' => [
-                        'available' => $agg['countTotal'],
-                        'forOne'    => round($agg['countTotal'] / $workShiftsCount),
-                        'shared'    => 0,
-                    ],
-                ];
+                $forOneSec = $agg['quota'] / Days::DAY_TOTAL_SECONDS;
+                $sum = 0;
                 for ($i = 0; $i < $workShiftsCount; $i++) {
                     $instance                = new RuleInstances();
                     $instance->rule_id       = $agg['rule_id'];
                     $instance->work_shift_id = $workShifts[$i]->id;
-                    foreach ($totalValues as $key => $data) {
-                        if ($i !== $workShiftsCount - 1) {
-                            $instance->{$key} = $data['forOne'];
-                            $totalValues[$key]['shared']  += $data['forOne'];
-                        } else {
-                            $instance->{$key} = $data['available'] - $totalValues[$key]['shared'];
-                        }
+                    $instance->count=0;
+                    $timePeriod = $workShifts[$i]->end - $workShifts[$i]->start;
+                    if ($i + 1 !== $workShiftsCount) {
+                        $instance->quota = round($timePeriod * $forOneSec);
+                        $sum += $instance->quota;
+                    } else {
+                        $instance->quota = $agg['quota'] - $sum;
                     }
                     $instance->save();
                 }
             }
         }
+        $this->refetchCounts($this->day_id);
     }
 
     /**

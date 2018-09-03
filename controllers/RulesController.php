@@ -44,6 +44,7 @@ class RulesController extends ActiveController
      *     @SWG\Parameter(
      *          in="formData",
      *          name="cultures",
+     *          required=true,
      *          type="array",
      *          items=@SWG\Items(
      *              type="integer"

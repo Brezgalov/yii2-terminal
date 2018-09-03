@@ -16,6 +16,7 @@ class Days extends \app\models\base\Days
 {
     const DAY_FIRST_SECOND  = 0;
     const DAY_LAST_SECOND   = 86400;
+    const DAY_TOTAL_SECONDS = 86400;
 
     /**
      * {@inheritdoc}
