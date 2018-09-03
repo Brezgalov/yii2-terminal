@@ -28,9 +28,13 @@ class CreateAction extends \yii\rest\CreateAction
     protected function createRelationsFromRequest(RetailersGroups $model)
     {
         $retailers = Yii::$app->request->post('retailers');
+        if (is_string($retailers)) {
+            $retailers = explode(',', $retailers);
+        }
         if (empty($retailers) || !is_array($retailers)) {
             return;
         }
+
         $realRetailers = Retailers::find()->where(['in', 'id', $retailers])->all();
         foreach ($realRetailers as $realRetailer) {
             $relation                       = new RetailersGroupRetailers();

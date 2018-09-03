@@ -22,7 +22,7 @@ class RuleInstancesController extends ActiveController
      * @SWG\Put(
      *     path="/api/rule-instances/{id}",
      *     tags={"RuleInstances"},
-     *     summary="Редактируем инстанс правила",
+     *     summary="Редактируем квоту правила через инстанс",
      *     @SWG\Parameter(
      *          in="path",
      *          name="id",

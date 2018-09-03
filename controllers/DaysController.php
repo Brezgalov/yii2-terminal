@@ -100,7 +100,7 @@ class DaysController extends ActiveController
      *     tags={"Days"},
      *     summary="Создаем день",
      *     @SWG\Parameter(
-     *          in="query",
+     *          in="formData",
      *          name="date",
      *          type="string",
      *          required=true,

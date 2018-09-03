@@ -1,6 +1,7 @@
 <?php
 namespace app\controllers\actions\rules;
 
+use app\models\Cultures;
 use Yii;
 use app\models\WorkShifts;
 use app\models\RuleInstances;
@@ -16,7 +17,7 @@ use app\models\forms\rules\CreateForm;
 class CreateAction extends \yii\rest\CreateAction
 {
 	public function run()
-	{
+    {
 		$form = new CreateForm();
 		$form->load(Yii::$app->request->post(), '');
 		if (!$form->validate()) {
@@ -55,10 +56,11 @@ class CreateAction extends \yii\rest\CreateAction
 			}
 		}
 
-		foreach($form->cultures as $culture_id) {
+		$realCultures = Cultures::find()->where(['in', 'id', $form->cultures])->all();
+		foreach($realCultures as $culture) {
 			$cultureRel 			= new RuleCultures();
 			$cultureRel->rule_id 	= $model->id;
-			$cultureRel->culture_id = $culture_id;
+			$cultureRel->culture_id = $culture->id;
 			$cultureRel->save();
 		}
 

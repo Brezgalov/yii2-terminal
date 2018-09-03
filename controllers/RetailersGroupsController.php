@@ -24,11 +24,11 @@ class RetailersGroupsController extends ActiveController
      *     summary="Создаем группу",
      *     @SWG\Parameter(
      *          in="formData",
-     *          name="day_id",
+     *          name="rule_id",
      *          type="integer",
      *          required=true,
      *          minimum=1,
-     *          description="Идентификатор дня"
+     *          description="Идентификатор правила"
      *     ),
      *     @SWG\Parameter(
      *          in="formData",
@@ -63,5 +63,34 @@ class RetailersGroupsController extends ActiveController
     public function actionCreate()
     {
         return parent::actionCreate();
+    }
+
+    /**
+     * @SWG\Delete(
+     *     path="/api/retailers-groups/{id}",
+     *     tags={"RetailersGroups"},
+     *     summary="Удаление группы",
+     *     @SWG\Parameter(
+     *          in="path",
+     *          name="id",
+     *          type="integer",
+     *          required=true,
+     *          description="Идентификатор удаляемой группы",
+     *          minimum=1
+     *     ),
+     *     @SWG\Response(
+     *          response=204,
+     *          description="Успешный ответ"
+     *     ),
+     *     @SWG\Response(
+     *          response=404,
+     *          description="Удаляемый объект не найден",
+     *          @SWG\Schema(ref="#/definitions/NotFoundHttpException")
+     *     )
+     * )
+     */
+    public function actionDelete()
+    {
+        return parent::actionDelete();
     }
 }

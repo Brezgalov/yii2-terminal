@@ -26,7 +26,7 @@ class CreateForm extends Model
 				'message' => 'Значение поля {attribute} должно быть больше ноля',
 			],
 			// day_id needs to exist in the column "id" in the table defined in Days class 
-			['day_id', 'exist', 'targetClass' => Days::class, 'targetAttribute' => ['day_id' => 'id'],
+			['day_id', 'exist', 'targetClass' => Days::className(), 'targetAttribute' => ['day_id' => 'id'],
 				'message' => 'День с идентификатором {value} не существует в системе',
 			],    
 			[['cultures'], 'validateCultures'],
@@ -40,6 +40,9 @@ class CreateForm extends Model
 
 	public function setCultures($value)
 	{
+	    if (is_string($value)) {
+            $value = explode(',', $value);
+        }
 		$this->culturesArray = $value;
 	}
 
