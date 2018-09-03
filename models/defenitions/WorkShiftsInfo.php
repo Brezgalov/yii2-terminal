@@ -9,6 +9,6 @@ namespace app\models\definitions;
  * @SWG\Property(property="end", type="integer", description="Кол-во секунд от начала дня до конца смены")
  * @SWG\Property(property="rules", type="array", description="Массив объектов правил", items=@SWG\Items(ref="#/definitions/Rule"))
  */
-class WorkShift {
+class WorkShiftsInfo {
 
 }

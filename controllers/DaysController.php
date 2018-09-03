@@ -54,7 +54,7 @@ class DaysController extends ActiveController
  	 *      	response=200,
      *          description="123",
  	 *          @SWG\Schema(
-     *              @SWG\Items(ref="#/definitions/DayPreview")
+     *              @SWG\Items(ref="#/definitions/DaysPreview")
  	 *          )
  	 *     ),
      * )
@@ -80,7 +80,7 @@ class DaysController extends ActiveController
      *     @SWG\Response(
      *          response=200,
      *          description="Успешное выполнение",
-     *          @SWG\Schema(ref="#/definitions/DayInfo")
+     *          @SWG\Schema(ref="#/definitions/DaysInfo")
      *     ),
      *     @SWG\Response(
      *          response=404,
@@ -109,7 +109,7 @@ class DaysController extends ActiveController
      *     @SWG\Response(
      *          response=201,
      *          description="Успешное выполнение",
-     *          @SWG\Schema(ref="#/definitions/Day")
+     *          @SWG\Schema(ref="#/definitions/Days")
      *     ),
      *     @SWG\Response(
      *          response=422,
@@ -175,7 +175,7 @@ class DaysController extends ActiveController
      *     @SWG\Response(
      *          response=201,
      *          description="Успешный ответ",
-     *          @SWG\Schema(ref="#/definitions/Day")
+     *          @SWG\Schema(ref="#/definitions/Days")
      *     ),
      *     @SWG\Response(
      *          response=422,

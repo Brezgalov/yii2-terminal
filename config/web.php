@@ -79,6 +79,7 @@ $config = [
                 [
                     'class'         => 'yii\rest\UrlRule',
                     'controller'    => 'cultures',
+                    'except'        => ['update'],
                     'prefix'        => 'api',
                 ],
                 [
@@ -90,6 +91,7 @@ $config = [
                 [
                     'class'         => 'yii\rest\UrlRule',
                     'controller'    => 'retailers-group-retailers',
+                    'except'        => ['update'],
                     'prefix'        => 'api',
                 ],
             ],

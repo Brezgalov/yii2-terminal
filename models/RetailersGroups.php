@@ -16,6 +16,18 @@ use Yii;
  */
 class RetailersGroups extends \app\models\base\RetailersGroups
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function rules()
+    {
+        return [
+            [['rule_id', 'quota'], 'required'],
+            [['rule_id', 'quota'], 'integer', 'min' => 1],
+            [['rule_id'], 'exist', 'skipOnError' => true, 'targetClass' => Rules::className(), 'targetAttribute' => ['rule_id' => 'id']],
+        ];
+    }
+
 	public function getRetailers()
 	{
 		return $this->hasMany(Retailers::className(), ['id' => 'retailer_id'])

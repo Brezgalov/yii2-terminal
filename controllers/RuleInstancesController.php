@@ -9,4 +9,17 @@ use yii\rest\ActiveController;
 class RuleInstancesController extends ActiveController
 {
 	public $modelClass = 'app\models\RuleInstances';
+
+    /**
+     * @SWG\Put(
+     *     path="/api/rule-instances",
+     *     tags={"RuleInstances"},
+     *     summary="Редактируем инстанс правила",
+     *
+     * )
+     */
+	public function actionUpdate()
+    {
+        return parent::actionUpdate();
+    }
 }

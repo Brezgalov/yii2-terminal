@@ -46,9 +46,14 @@ class WorkShifts extends \app\models\base\WorkShifts
     {
         $count = WorkShifts::find()->where(['=', $attribute, $this->{$attribute}])->count();
         if ($count > 1) {
-            $min = (int) WorkShifts::find()->where(['=', $attribute, $this->{$attribute}])->min('start');
-            $max = (int) WorkShifts::find()->where(['=', $attribute, $this->{$attribute}])->max('end');
-            if ($min === Days::DAY_FIRST_SECOND && Days::DAY_LAST_SECOND) {
+            $min = (int) WorkShifts::find()
+                ->where(['=', $attribute, $this->{$attribute}])
+                ->min('start')
+            ;
+            $max = (int) WorkShifts::find()
+                ->where(['=', $attribute, $this->{$attribute}])
+                ->max('end');
+            if ($min === Days::DAY_FIRST_SECOND && $max === Days::DAY_LAST_SECOND) {
                 $this->addError($attribute, 'Этот день уже разбит на смены');
             }            
         }
@@ -160,7 +165,7 @@ class WorkShifts extends \app\models\base\WorkShifts
             $tmp->start = $timePeriod[0];
             $tmp->end   = $timePeriod[1];
             if (!$tmp->save()) {
-                throw new Exception("Ошибка сохранения. Обратитесь к администратору сервера");
+                throw new Exception("Ошибка сохранения:". json_encode($tmp->errors) ." Обратитесь к администратору сервера.");
             }
         }
             

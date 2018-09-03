@@ -15,6 +15,7 @@ namespace app\models;
  */
 class RuleInstances extends \app\models\base\RuleInstances
 {
+    const SCENARIO_UPDATE = 'update';
 	/**
      * {@inheritdoc}
      */
@@ -26,5 +27,12 @@ class RuleInstances extends \app\models\base\RuleInstances
             [['rule_id'], 'exist', 'skipOnError' => true, 'targetClass' => Rules::className(), 'targetAttribute' => ['rule_id' => 'id']],
             [['work_shift_id'], 'exist', 'skipOnError' => true, 'targetClass' => WorkShifts::className(), 'targetAttribute' => ['work_shift_id' => 'id']],
         ];
+    }
+
+    public function scenarios()
+    {
+        $scenarios = parent::scenarios();
+        $scenarios[self::SCENARIO_UPDATE] = ['quota', '!work_shift_id','!count','!rule_id'];
+        return $scenarios;
     }
 }

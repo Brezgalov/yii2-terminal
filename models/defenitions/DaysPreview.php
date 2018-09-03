@@ -15,7 +15,7 @@ namespace app\models\definitions;
  *     items=@SWG\Items(ref="#/definitions/RulePreview")
  * )
  */
-class DayPreview
+class DaysPreview
 {
 
 }
