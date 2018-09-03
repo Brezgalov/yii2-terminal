@@ -12,7 +12,7 @@ namespace app\models\definitions;
  *     @SWG\Property(property="count", type="integer", description="Суммарное количество принятых машин по всем правилам")
  * )
  * @SWG\Property(property="rules", type="array", description="Массив данных для превью правил",
- *     items=@SWG\Items(ref="#/definitions/RulePreview")
+ *     items=@SWG\Items(ref="#/definitions/RulesPreview")
  * )
  */
 class DaysPreview

@@ -23,7 +23,7 @@ class RuleInstances extends \app\models\base\RuleInstances
     {
         return [
             [['rule_id', 'work_shift_id'], 'required'],
-            [['rule_id', 'work_shift_id', 'quota'], 'integer'],
+            [['rule_id', 'work_shift_id', 'quota'], 'integer', 'min' => 0],
             [['rule_id'], 'exist', 'skipOnError' => true, 'targetClass' => Rules::className(), 'targetAttribute' => ['rule_id' => 'id']],
             [['work_shift_id'], 'exist', 'skipOnError' => true, 'targetClass' => WorkShifts::className(), 'targetAttribute' => ['work_shift_id' => 'id']],
         ];

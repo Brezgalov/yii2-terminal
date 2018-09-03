@@ -1,13 +1,14 @@
 <?php
 namespace app\controllers\actions\ruleinstances;
 
+use app\models\RuleInstances;
+
 class UpdateAction extends \yii\rest\UpdateAction
 {
-    public $scenario = 'update';
+    public $scenario = RuleInstances::SCENARIO_UPDATE;
 
     public function run($id)
     {
-        var_dump($this->scenario);die();
         return parent::run($id);
     }
 }

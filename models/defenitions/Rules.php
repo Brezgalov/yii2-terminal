@@ -11,6 +11,6 @@ namespace app\models\definitions;
  * @SWG\Property(property="cultures", type="array", items=@SWG\Items(type="string"))
  * @SWG\Property(property="retailersGroups", type="array", items=@SWG\Items(ref="#/definitions/RetailersGroups"))
  */
-class Rule {
+class Rules {
 
 }

@@ -9,7 +9,7 @@ namespace app\models\definitions;
  * @SWG\Property(property="count", type="integer", description="Количество машин принято")
  * @SWG\Property(property="cultures", type="array", description="Массив названий культур", items=@SWG\Items(type="string"))
  */
-class RulePreview
+class RulesPreview
 {
 
 }
