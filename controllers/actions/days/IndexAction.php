@@ -56,7 +56,7 @@ class IndexAction extends \yii\rest\IndexAction
             unset($days[$i]['workShifts']);
         }
 
-        return ['days' => $days];
+        return $days;
     }
 
     /**

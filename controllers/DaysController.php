@@ -54,11 +54,7 @@ class DaysController extends ActiveController
  	 *      	response=200,
      *          description="123",
  	 *          @SWG\Schema(
- 	 *              @SWG\Property(
-	 *					property="days",
-	 *                  type="array",
-     *                  items=@SWG\Items(ref="#/definitions/DayPreview")
- 	 *              ),
+     *              @SWG\Items(ref="#/definitions/DayPreview")
  	 *          )
  	 *     ),
      * )
