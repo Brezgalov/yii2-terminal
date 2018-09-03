@@ -30,7 +30,7 @@ class ViewAction extends \yii\rest\ViewAction
         ;
 
         foreach ($workShifts as $i => $workShift) {
-            $rules = RuleInstances::find()
+            $rulesInstances = RuleInstances::find()
                 ->select([
                     '*',
                     'SUM(`count`) as `countTotal`',
@@ -42,8 +42,8 @@ class ViewAction extends \yii\rest\ViewAction
                 ->all()
             ;
             $rulesAgg = [];
-            foreach($rules as $rule) {
-                $rulesAgg = $this->getRuleInfo($rule);
+            foreach($rulesInstances as $instance) {
+                $rulesAgg = $this->getRuleInfo($instance);
             }
             $workShifts[$i]['rules'] = $rulesAgg;
         }
@@ -57,23 +57,23 @@ class ViewAction extends \yii\rest\ViewAction
     /**
      * Собираем инфу по инстансу
      *
-     * @param array $rule
+     * @param array $instance
      * @return array
      */
-    protected function getRuleInfo($rule) 
+    protected function getRuleInfo($instance)
     {
         $cultures = RuleCultures::find()
             ->select([
                 'cultures.name',
             ])
             ->innerJoin('cultures', 'cultures.id = rule_cultures.culture_id')
-            ->where(['=', 'rule_id', $rule['rule_id']])
+            ->where(['=', 'rule_id', $instance['rule_id']])
             ->asArray()
             ->all()
         ;
         $retailersGroups = RetailersGroups::find()
             ->with('retailers')
-            ->where(['=', 'rule_id', $rule['rule_id']])
+            ->where(['=', 'rule_id', $instance['rule_id']])
             ->asArray()
             ->all()
         ;           
@@ -86,9 +86,10 @@ class ViewAction extends \yii\rest\ViewAction
         }
 
         return [
-            'id'                => $rule['id'],
-            'quota'             => $rule['quotaTotal'],
-            'count'             => $rule['countTotal'],
+            'rule_id'           => $instance['rule_id'],
+            'instance_id'       => $instance['id'],
+            'quota'             => $instance['quotaTotal'],
+            'count'             => $instance['countTotal'],
             'cultures'          => array_column($cultures, 'name'),
             'retailersGroups'   => $retailersGroups,
         ];
